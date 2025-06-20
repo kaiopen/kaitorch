@@ -7,66 +7,62 @@ from .attribute import Attribute
 
 
 class XY(Attribute):
+    r'''
+
+    #### Args:
+    - xyf: 2D coordinates in the rectangular coordinate system. Its shape
+        should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or `(0, [C])`. A coordinate
+        should be in the form of `(x, y)`.
+
+    #### Properties:
+    - device
+    - rho: rhos in the polar coordinate system. Its shape is `(N >= 0, 1)`.
+    - rho_: rhos in the polar coordinate system. Its shape is `(N >= 0, 1)`.
+    - rt: 2D coordinates in the polar coordinate system. Its shape is
+        `(N >= 0, 2)`. A coordinate is in the form of `(rho, theta)`. And the
+        `theta` is in radius.
+    - rt_: 2D coordinates in the polar coordinate system. Its shape is
+        `(N >= 0, 2)`. A coordinate is in the form of `(rho, theta)`. And the
+        `theta` is in radius.
+    - theta: thetas in radius in the polar coordinate system. Its shape is
+        `(N >= 0, 1)`.
+    - theta_: thetas in radius in the polar coordinate system. Its shape is
+        `(N >= 0, 1)`.
+    - xy: 2D coordinates in the rectangular coordinate system. Its shape is
+        `(N >= 0, 2)`. A coordinate is in the form of `(x, y)`.
+    - xy_: 2D coordinates in the rectangular coordinate system. Its shape is
+        `(N >= 0, 2)`. A coordinate is in the form of `(x, y)`.
+
+    #### Methods:
+    - __iter__
+    - __getitem__: Slice the necessary data.
+    - __len__
+    - __next__
+    - append_: Append new data to the existed data.
+    - copy: Copy the necessary data.
+    - copy_all: Copy all of the data.
+    - cpu_
+    - cuda_
+    - filter_: Filter the necessary data.
+    - flip_around_x_axis_: Flip the data around the X axis.
+    - flip_around_y_axis_: Flip the data around the Y axis.
+    - is_empty: Whether there is no data.
+    - merge_: Merge the two.
+    - rotate_around_z_axis_: Rotate the data around the Z axis.
+    - scale_: Scale the data.
+    - slice_all: Slice all of the data.
+    - update_xy_: Update the coordinates.
+
+    #### Static Methods:
+    - format_xy: Make sure the shape of `xyf` is `(N >= 0, 2)`.
+
+    #### Class Methods:
+    - from_similar: New data from the input.
+
+    '''
     def __init__(
         self, xyf: TorchTensor[TorchReal], *args, **kwargs
     ) -> None:
-        r'''
-
-        ### Args:
-            - xyf: 2D coordinates in the rectangular coordinate system. Its
-                shape should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or
-                `(0, [C])`. A coordinate should be in the form of `(x, y)`.
-
-        ### Properties:
-            - device
-            - rho: rhos in the polar coordinate system. Its shape is
-                `(N >= 0, 1)`.
-            - rho_: rhos in the polar coordinate system. Its shape is
-                `(N >= 0, 1)`.
-            - rt: 2D coordinates in the polar coordinate system. Its shape is
-                `(N >= 0, 2)`. A coordinate is in the form of `(rho, theta)`.
-                And the `theta` is in radius.
-            - rt_: 2D coordinates in the polar coordinate system. Its shape is
-                `(N >= 0, 2)`. A coordinate is in the form of `(rho, theta)`.
-                And the `theta` is in radius.
-            - theta: thetas in radius in the polar cooridnate system. Its shape
-                is `(N >= 0, 1)`.
-            - theta_: thetas in radius in the polar cooridnate system. Its
-                shape is `(N >= 0, 1)`.
-            - xy: 2D coordinates in the rectangular coordinate system. Its
-                shape is `(N >= 0, 2)`. A coordinate is in the form of
-                `(x, y)`.
-            - xy_: 2D coordinates in the rectangular coordinate system. Its
-                shape is `(N >= 0, 2)`. A coordinate is in the form of
-                `(x, y)`.
-
-        ### Methods:
-            - __iter__
-            - __getitem__: Slice the necessary data.
-            - __len__
-            - __next__
-            - append_: Append new data to the existed data.
-            - copy: Copy the necessary data.
-            - copy_all: Copy all of the data.
-            - cpu_
-            - cuda_
-            - filter_: Filter the necessary data.
-            - flip_around_x_axis_: Flip the data around the X axis.
-            - flip_around_y_axis_: Flip the data around the Y axis.
-            - is_empty: Whether there is no data.
-            - merge_: Merge the two.
-            - rotate_around_z_axis_: Rotate the data around the Z axis.
-            - scale_: Scale the data.
-            - slice_all: Slice all of the data.
-            - update_xy_: Update the coordinates.
-
-        ### Static Methods:
-            - format_xy: Make sure the shape of `xyf` is `(N >= 0, 2)`.
-
-        ### Class Methods:
-            - from_similar: New data from the input.
-
-        '''
         super().__init__(*args, **kwargs)
         self.xy_ = self.format_xy(xyf)
 
@@ -174,11 +170,11 @@ class XY(Attribute):
     def __getitem__(self, i: Union[int, slice, Sequence[Union[int, bool]]]):
         r'''Slice the necessary data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         return self.__class__(xy=self.xy_[i])
@@ -197,13 +193,13 @@ class XY(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - xyf: 2D coordinates in the rectangular coordinate system. Its
-                shape should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or
-                `(0, [C])`. A coordinate should be in the form of `(x, y)`.
+        #### Args:
+        - xyf: 2D coordinates in the rectangular coordinate system. Its shape
+            should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or `(0, [C])`. A
+            coordinate should be in the form of `(x, y)`.
 
-        ### Returns:
-            - Number of the appended boxes.
+        #### Returns:
+        - Number of the appended boxes.
 
         '''
         if xyf.device != self._device:
@@ -225,8 +221,8 @@ class XY(Attribute):
     def copy(self):
         r'''Copy the necessary data.
 
-        ### Returns:
-            - A copy of self.
+        #### Returns:
+        - A copy of self.
 
         '''
         return self.__class__(xy=self.xy)
@@ -234,8 +230,8 @@ class XY(Attribute):
     def copy_all(self):
         r'''Copy all of the data.
 
-        ### Returns:
-            - A copy of self.
+        #### Returns:
+        - A copy of self.
 
         '''
         c = super().copy_all()
@@ -269,8 +265,8 @@ class XY(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
         '''
         super().filter_(i)
@@ -302,14 +298,14 @@ class XY(Attribute):
     def format_xy(xyf: TorchTensor[TorchReal]) -> TorchTensor[TorchReal]:
         r'''Make sure the shape of `xyf` is `(N >= 0, 2)`.
 
-        ### Args:
-            - xyf: 2D coordinates in the rectangular coordiante system. Its
-                shape should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or
-                `(0, [C])`. A coordinate should be in the form of `(x, y)`.
+        #### Args:
+        - xyf: 2D coordinates in the rectangular coordiante system. Its shape
+            should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or  `(0, [C])`. A
+            coordinate should be in the form of `(x, y)`.
 
-        ### Returns:
-            - 2D coordinates in the rectangular coordinate system. Its shape
-                is `(N >= 0, 2)`. A coordinate is in the form of `(x, y)`.
+        #### Returns:
+        - 2D coordinates in the rectangular coordinate system. Its shape is
+            `(N >= 0, 2)`. A coordinate is in the form of `(x, y)`.
 
         '''
         if 1 == xyf.ndim:
@@ -330,11 +326,11 @@ class XY(Attribute):
     def from_similar(cls, obj):
         r'''New data from the input.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
-        ### Returns:
-            - Data sharing the storage memory with the input.
+        #### Returns:
+        - Data sharing the storage memory with the input.
 
         '''
         return cls(xy=obj.xy_)
@@ -344,8 +340,8 @@ class XY(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
         '''
         super().merge_(obj)
@@ -357,8 +353,8 @@ class XY(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - radius: radius to rotate by in radius.
+        #### Args:
+        - radius: radius to rotate by in radius.
 
         '''
         super().rotate_around_z_axis_(radius)
@@ -370,8 +366,8 @@ class XY(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - scale
+        #### Args:
+        - scale
 
         '''
         self.xy_ *= scale
@@ -380,11 +376,11 @@ class XY(Attribute):
     def slice_all(self, i: Union[int, slice, Sequence[Union[int, bool]]]):
         r'''Slice all of the data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         c = super().slice_all(i)
@@ -403,10 +399,10 @@ class XY(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - xyf: 2D coordinates in the rectangular coordinate system. Its
-                shape should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or
-                `(0, [C])`. A coordinate should be in the form of `(x, y)`.
+        #### Args:
+        - xyf: 2D coordinates in the rectangular coordinate system. Its shape
+            should be `(N >= 0, 2 [+ C])`, `(2 [+ C],)` or `(0, [C])`. A
+            coordinate should be in the form of `(x, y)`.
 
         '''
         self.xy_ = self.format_xy(xyf)

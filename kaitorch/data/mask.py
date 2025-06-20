@@ -14,16 +14,15 @@ def mask_in_range(
 
     If there is a `None` in the `r`, the comparision will be skipped.
 
-    ### Args:
-        - a: data. Its shape should be `([*,] C)`.
-        - r: a right half-open interval in which the data is masked. It should
-            be in the form of
-            `(min_0, max_0, min_1, max_1, ..., min_n, max_n)`, where `n` must
-            be less than `C`.
+    #### Args:
+    - a: data. Its shape should be `([*,] C)`.
+    - r: a right half-open interval in which the data is masked. It should be
+        in the form of `(min_0, max_0, min_1, max_1, ..., min_n, max_n)`, where
+        `n` must be less than `C`.
 
-    ### Returns:
-        - Mask for the preserved data which is in the range. Its shape is
-            `([*,])`. If `True`, the data is preserved.
+    #### Returns:
+    - Mask for the preserved data which is in the range. Its shape is `([*,])`.
+        If `True`, the data is preserved.
 
     '''
     mask = True
@@ -47,14 +46,14 @@ def mask_radii_in_range(
     Given a radius `r` and a range `(minR, maxR)`. If `r >= minR & r < maxR`,
     the radius is in the range.
 
-    ### Args:
-        - radii: radii in radius.
-        - r: a right half-open interval in which the radii are masked. It
-            should be in the form of `(left, right)`.
+    #### Args:
+    - radii: radii in radius.
+    - r: a right half-open interval in which the radii are masked. It should be
+        in the form of `(left, right)`.
 
-    ### Returns:
-        - Mask for the preserved radii which are in the range. If `True`, the
-            radius is preserved.
+    #### Returns:
+    - Mask for the preserved radii which are in the range. If `True`, the
+        radius is preserved.
 
     '''
     mi = r[0]
@@ -75,15 +74,15 @@ def mask_in_closed_range(
 
     If there is a `None` in the `r`, the comparision will be skipped.
 
-    ### Args:
-        - a: data. Its shape should be `([*,] C)`.
-        - r: a closed interval in which the data is masked. It should be in the
-            form of `(min_0, max_0, min_1, max_1, ..., min_n, max_n)`, where
-            `n` must be less than `C`.
+    #### Args:
+    - a: data. Its shape should be `([*,] C)`.
+    - r: a closed interval in which the data is masked. It should be in the
+        form of `(min_0, max_0, min_1, max_1, ..., min_n, max_n)`, where `n`
+        must be less than `C`.
 
-    ### Returns:
-        - Mask for the preserved data which is in the range. Its shape is
-            `([*,])`. If `True`, the data is preserved.
+    #### Returns:
+    - Mask for the preserved data which is in the range. Its shape is `([*,])`.
+        If `True`, the data is preserved.
 
     '''
     mask = True
@@ -107,14 +106,14 @@ def mask_radii_in_closed_range(
     Given a radius `r` and a range `(minR, maxR)`. If `r >= minR & r <= maxR`,
     the radius is in the range.
 
-    ### Args:
-        - radii: radii in radius.
-        - r: a closed interval in which the radii are masked. It should be in
-            the form of `(left, right)`.
+    #### Args:
+    - radii: radii in radius.
+    - r: a closed interval in which the radii are masked. It should be in the
+        form of `(left, right)`.
 
-    ### Returns:
-        - Mask for the preserved radii which are in the range. If `True`, the
-            radius is preserved.
+    #### Returns:
+    - Mask for the preserved radii which are in the range. If `True`, the
+        radius is preserved.
 
     '''
     mi = r[0]

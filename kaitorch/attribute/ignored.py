@@ -6,47 +6,46 @@ from .attribute import Attribute
 
 
 class Ignored(Attribute):
+    r'''Whether the data is ignored.
+
+    #### Args:
+    - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)` or
+        `(N >= 0,)`.
+
+    #### Properties:
+    - device
+    - ignored: ignoring attributes. Its shape is `(N >= 0, 1)`.
+    - ignored_: ignoring attributes. Its shape is `(N >= 0, 1)`.
+
+    #### Methods:
+    - __iter__
+    - __getitem__: Slice the necessary data.
+    - __len__
+    - __next__
+    - append_: Append new data to the existed data.
+    - copy: Copy the necessary data.
+    - copy_all: Copy all of the data.
+    - cpu_
+    - cuda_
+    - filter_: Filter the necessary data.
+    - flip_around_x_axis_: Flip the data around the X axis.
+    - flip_around_y_axis_: Flip the data around the Y axis.
+    - is_empty: Whether there is no data.
+    - merge_: Merge the two.
+    - rotate_around_z_axis_: Rotate the data around the Z axis.
+    - slice_all: Slice all of the data.
+    - update_ignored_: Update the ignoring attributes.
+
+    #### Static Methods:
+    - format_ignored: Make sure the shape of `ignored` is `(N >= 0, 1)`.
+
+    #### Class Methods:
+    - from_similar: New data from the input.
+
+    '''
     def __init__(
         self, ignored: TorchTensor[TorchBool], *args, **kwargs
     ) -> None:
-        r'''Whether the data is ignored.
-
-        ### Args:
-            - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)`
-                or `(N >= 0,)`.
-
-        ### Properties:
-            - device
-            - ignored: ignoring attributes. Its shape is `(N >= 0, 1)`.
-            - ignored_: ignoring attributes. Its shape is `(N >= 0, 1)`.
-
-        ### Methods:
-            - __iter__
-            - __getitem__: Slice the necessary data.
-            - __len__
-            - __next__
-            - append_: Append new data to the existed data.
-            - copy: Copy the necessary data.
-            - copy_all: Copy all of the data.
-            - cpu_
-            - cuda_
-            - filter_: Filter the necessary data.
-            - flip_around_x_axis_: Flip the data around the X axis.
-            - flip_around_y_axis_: Flip the data around the Y axis.
-            - is_empty: Whether there is no data.
-            - merge_: Merge the two.
-            - rotate_around_z_axis_: Rotate the data around the Z axis.
-            - slice_all: Slice all of the data.
-            - update_ignored_: Update the ignoring attributes.
-
-        ### Static Methods:
-            - format_ignored: Make sure the shape of `ignored` is
-                `(N >= 0, 1)`.
-
-        ### Class Methods:
-            - from_similar: New data from the input.
-
-        '''
         super().__init__(*args, **kwargs)
         self.ignored_ = self.format_ignored(ignored)
 
@@ -79,11 +78,11 @@ class Ignored(Attribute):
     def __getitem__(self, i: Union[int, slice, Sequence[Union[int, bool]]]):
         r'''Slice the necessary data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         return self.__class__(ignored=self.ignored_[i])
@@ -97,12 +96,12 @@ class Ignored(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)`
-                or `(N >= 0,)`.
+        #### Args:
+        - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)` or
+            `(N >= 0,)`.
 
-        ### Returns:
-            - Number of the appended boxes.
+        #### Returns:
+        - Number of the appended boxes.
 
         '''
         if ignored.device != self._device:
@@ -123,8 +122,8 @@ class Ignored(Attribute):
     def copy(self):
         r'''Copy the necessary data.
 
-        ### Returns:
-            - A copy of self.
+        #### Returns:
+        - A copy of self.
 
         '''
         return self.__class__(ignored=self.ignored)
@@ -144,8 +143,8 @@ class Ignored(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
         '''
         super().filter_(i)
@@ -174,12 +173,12 @@ class Ignored(Attribute):
     ) -> TorchTensor[TorchBool]:
         r'''Make sure the shape of `ignored` is `(N >= 0, 1)`.
 
-        ### Args:
-            - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)`
-                or `(N >= 0,)`.
+        #### Args:
+        - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)` or
+            `(N >= 0,)`.
 
-        ### Returns:
-            - Ignoring attributes. Its shape is `(N >= 0, 1)`.
+        #### Returns:
+        - Ignoring attributes. Its shape is `(N >= 0, 1)`.
 
         '''
         if 1 == ignored.ndim:
@@ -195,11 +194,11 @@ class Ignored(Attribute):
     def from_similar(cls, obj):
         r'''New data from the input.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
-        ### Returns:
-            - Data sharing the storage memory with the input.
+        #### Returns:
+        - Data sharing the storage memory with the input.
 
         '''
         return cls(ignored=obj.ignored_)
@@ -209,8 +208,8 @@ class Ignored(Attribute):
 
         Warning: This is an inplace method.
 
-        ###Args:
-            - obj
+        #### Args:
+        - obj
 
         '''
         super().merge_(obj)
@@ -221,8 +220,8 @@ class Ignored(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - radius: radius to rotate by in radius.
+        #### Args:
+        - radius: radius to rotate by in radius.
 
         '''
         super().rotate_around_z_axis_(radius)
@@ -232,9 +231,9 @@ class Ignored(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)`
-                or `(N >= 0,)`.
+        #### Args:
+        - ignored: ignoring attributes. Its shape should be `(N >= 0, 1)` or
+            `(N >= 0,)`.
 
         '''
         self.ignored_ = self.format_ignored(ignored)

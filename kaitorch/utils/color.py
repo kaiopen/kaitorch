@@ -40,11 +40,11 @@ PALETTE_30 = (
 def pseudo_colors(a: TorchTensor[TorchFloat]) -> TorchTensor[TorchFloat]:
     r'''Generate pseudo colors according to the data.
 
-    ### Args:
-        - a: data. Its shape should be `(N)` and value should be from 0 to 1.
+    #### Args:
+    - a: data. Its shape should be `(N)` and value should be from 0 to 1.
 
-    ### Returns:
-        - Pseudo colors from 0 to 1. Its shape is `(N, 3)`.
+    #### Returns:
+    - Pseudo colors from 0 to 1. Its shape is `(N, 3)`.
 
     '''
     a = a * 255

@@ -6,48 +6,46 @@ from .attribute import Attribute
 
 
 class Timestamp(Attribute):
+    r'''
+
+    #### Args:
+    - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or `(N >= 0,)`.
+
+    #### Properties:
+    - device
+    - timestamp: timestamps. Its shape is `(N >= 0, 1)`.
+    - timestamp_: timestamps. Its shape is `(N >= 0, 1)`.
+
+    #### Methods:
+    - __iter__
+    - __getitem__: Slice the necessary data.
+    - __len__
+    - __next__
+    - append_: Append new data to the existed data.
+    - copy: Copy the necessary data.
+    - copy_all: Copy all of the data.
+    - cpu_
+    - cuda_
+    - filter_: Filter the necessary data.
+    - flip_around_x_axis_: Flip the data around the X axis.
+    - flip_around_y_axis_: Flip the data around the Y axis.
+    - is_empty: Whether there is no data.
+    - merge_: Merge the two.
+    - rotate_around_z_axis_: Rotate the data around the Z axis.
+    - slice_all: Slice all of the data.
+    - synchronize_with_: Synchronize with the input.
+    - update_timestamp_: Update the timestamps.
+
+    #### Static Methods:
+    - format_timestamp: Make sure the shape of `timestamp` is `(N >= 0, 1)`.
+
+    #### Class Methods:
+    - from_similar: New data from the input.
+
+    '''
     def __init__(
         self, timestamp: TorchTensor[TorchReal], *args, **kwargs
     ) -> None:
-        r'''
-
-        ### Args:
-            - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
-                `(N >= 0,)`.
-
-        ### Properties:
-            - device
-            - timestamp: timestamps. Its shape is `(N >= 0, 1)`.
-            - timestamp_: timestamps. Its shape is `(N >= 0, 1)`.
-
-        ### Methods:
-            - __iter__
-            - __getitem__: Slice the necessary data.
-            - __len__
-            - __next__
-            - append_: Append new data to the existed data.
-            - copy: Copy the necessary data.
-            - copy_all: Copy all of the data.
-            - cpu_
-            - cuda_
-            - filter_: Filter the necessary data.
-            - flip_around_x_axis_: Flip the data around the X axis.
-            - flip_around_y_axis_: Flip the data around the Y axis.
-            - is_empty: Whether there is no data.
-            - merge_: Merge the two.
-            - rotate_around_z_axis_: Rotate the data around the Z axis.
-            - slice_all: Slice all of the data.
-            - synchronize_with_: Synchronize with the input.
-            - update_timestamp_: Update the timestamps.
-
-        ### Static Methods:
-            - format_timestamp: Make sure the shape of `timestamp` is
-                `(N >= 0, 1)`.
-
-        ### Class Methods:
-            - from_similar: New data from the input.
-
-        '''
         super().__init__(*args, **kwargs)
         self.timestamp_ = self.format_timestamp(timestamp)
 
@@ -80,11 +78,11 @@ class Timestamp(Attribute):
     def __getitem__(self, i: Union[int, slice, Sequence[Union[int, bool]]]):
         r'''Slice the necessary data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         return self.__class__(timestamp=self.timestamp_[i])
@@ -98,12 +96,12 @@ class Timestamp(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
-                `(N >= 0,)`.
+        #### Args:
+        - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
+            `(N >= 0,)`.
 
-        ### Returns:
-            - Number of the appended boxes.
+        #### Returns:
+        - Number of the appended boxes.
 
         '''
         if timestamp.device != self._device:
@@ -124,8 +122,8 @@ class Timestamp(Attribute):
     def copy(self):
         r'''Copy the necessary data.
 
-        ### Returns:
-            - A copy of self.
+        #### Returns:
+        - A copy of self.
 
         '''
         return self.__class__(timestamp=self.timestamp)
@@ -145,8 +143,8 @@ class Timestamp(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
         '''
         super().filter_(i)
@@ -175,12 +173,12 @@ class Timestamp(Attribute):
     ) -> TorchTensor[TorchReal]:
         r'''Make sure the shape of `timestamp` is `(N >= 0, 1)`.
 
-        ### Args:
-            - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
-                `(N >= 0,)`.
+        #### Args:
+        - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
+            `(N >= 0,)`.
 
-        ### Returns:
-            - Timestamps. Its shape is `(N >= 0, 1)`.
+        #### Returns:
+        - Timestamps. Its shape is `(N >= 0, 1)`.
 
         '''
         if 1 == timestamp.ndim:
@@ -196,11 +194,11 @@ class Timestamp(Attribute):
     def from_similar(cls, obj):
         r'''New data from the input.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
-        ### Returns:
-            - Data sharing the storage memory with the input.
+        #### Returns:
+        - Data sharing the storage memory with the input.
 
         '''
         return cls(timestamp=obj.timestamp_)
@@ -210,8 +208,8 @@ class Timestamp(Attribute):
 
         Warning: This is an inplace method.
 
-        ###Args:
-            - obj
+        #### Args:
+        - obj
 
         '''
         super().merge_(obj)
@@ -222,8 +220,8 @@ class Timestamp(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - radius: radius to rotate by in radius.
+        #### Args:
+        - radius: radius to rotate by in radius.
 
         '''
         super().rotate_around_z_axis_(radius)
@@ -233,8 +231,8 @@ class Timestamp(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
         '''
         self.timestamp_[:] = obj.timestamp_[0]
@@ -244,9 +242,9 @@ class Timestamp(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
-                `(N >= 0,)`.
+        #### Args:
+        - timestamp: timestamps. Its shape should be `(N >= 0, 1)` or
+            `(N >= 0,)`.
 
         '''
         self.timestamp_ = self.format_timestamp(timestamp)

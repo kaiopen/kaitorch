@@ -6,48 +6,48 @@ from .attribute import Attribute
 
 
 class LWH(Attribute):
+    r'''
+
+    #### Args:
+    - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)` or
+        `(0,)`. The size of a cuboid should be in the form of
+        `(length, width, height)`.
+
+    #### Properties:
+    - device
+    - lwh: sizes of the cuboids. Its shape is `(N >= 0, 3)`. The size of a
+        cuboid is in the form of `(length, width, height)`.
+    - lwh_: sizes of the cuboids. Its shape is `(N >= 0, 3)`. The size of a
+        cuboid is in the form of `(length, width, height)`.
+
+    #### Methods:
+    - __iter__
+    - __getitem__: Slice the necessary data.
+    - __len__
+    - __next__
+    - append_: Append new data to the existed data.
+    - copy: Copy the necessary data.
+    - copy_all: Copy all of the data.
+    - cpu_
+    - cuda_
+    - filter_: Filter the necessary data.
+    - flip_around_x_axis_: Flip the data around the X axis.
+    - flip_around_y_axis_: Flip the data around the Y axis.
+    - is_empty: Whether there is no data.
+    - merge_: Merge the two.
+    - rotate_around_z_axis_: Rotate the data around the Z axis.
+    - scale_: Scale the data.
+    - slice_all: Slice all of the data.
+    - update_lwh_: Update the sizes.
+
+    #### Static Methods:
+    - format_lwh: Make sure the shape of `lwh` is `(N >= 0, 3)`.
+
+    #### Class Methods:
+    - from_similar: New data from the input.
+
+    '''
     def __init__(self, lwh: TorchTensor[TorchReal], *args, **kwargs) -> None:
-        r'''
-
-        ### Args:
-            - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)`
-                or `(0,)`. The size of a cuboid should be in the form of
-                `(length, width, height)`.
-
-        ### Properties:
-            - device
-            - lwh: sizes of the cuboids. Its shape is `(N >= 0, 3)`. The size
-                of a cuboid is in the form of `(length, width, height)`.
-            - lwh_: sizes of the cuboids. Its shape is `(N >= 0, 3)`. The size
-                of a cuboid is in the form of `(length, width, height)`.
-
-        ### Methods:
-            - __iter__
-            - __getitem__: Slice the necessary data.
-            - __len__
-            - __next__
-            - append_: Append new data to the existed data.
-            - copy: Copy the necessary data.
-            - copy_all: Copy all of the data.
-            - cpu_
-            - cuda_
-            - filter_: Filter the necessary data.
-            - flip_around_x_axis_: Flip the data around the X axis.
-            - flip_around_y_axis_: Flip the data around the Y axis.
-            - is_empty: Whether there is no data.
-            - merge_: Merge the two.
-            - rotate_around_z_axis_: Rotate the data around the Z axis.
-            - scale_: Scale the data.
-            - slice_all: Slice all of the data.
-            - update_lwh_: Update the sizes.
-
-        ### Static Methods:
-            - format_lwh: Make sure the shape of `lwh` is `(N >= 0, 3)`.
-
-        ### Class Methods:
-            - from_similar: New data from the input.
-
-        '''
         super().__init__(*args, **kwargs)
         self.lwh_ = self.format_lwh(lwh)
 
@@ -85,11 +85,11 @@ class LWH(Attribute):
     def __getitem__(self, i: Union[int, slice, Sequence[Union[int, bool]]]):
         r'''Slice the necessary data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         return self.__class__(lwh=self.lwh_[i])
@@ -99,13 +99,13 @@ class LWH(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)`
-                or `(0,)`. The size of a cuboid should be in the form of
-                `(length, width, height)`.
+        #### Args:
+        - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)` or
+            `(0,)`. The size of a cuboid should be in the form of
+            `(length, width, height)`.
 
-        ### Returns:
-            - Number of the appended boxes.
+        #### Returns:
+        - Number of the appended boxes.
 
         '''
         if lwh.device != self._device:
@@ -126,8 +126,8 @@ class LWH(Attribute):
     def copy(self):
         r'''Copy the necessary data.
 
-        ### Returns:
-            - A copy of self.
+        #### Returns:
+        - A copy of self.
 
         '''
         return self.__class__(lwh=self.lwh)
@@ -147,8 +147,8 @@ class LWH(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
         '''
         super().filter_(i)
@@ -175,14 +175,14 @@ class LWH(Attribute):
     def format_lwh(lwh: TorchTensor[TorchReal]) -> TorchTensor[TorchReal]:
         r'''Make sure the shape of `lwh` is `(N >= 0, 3)`.
 
-        ### Args:
-            - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)`
-                or `(0,)`. The size of a cuboid should be in the form of
-                `(length, width, height)`.
+        #### Args:
+        - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)` or
+            `(0,)`. The size of a cuboid should be in the form of
+            `(length, width, height)`.
 
-        ### Returns:
-            - Sizes of cuboids. Its shape is `(N >= 0, 3)`. The size of a
-                cuboid is in the form of `(length, width, height)`.
+        #### Returns:
+        - Sizes of cuboids. Its shape is `(N >= 0, 3)`. The size of a cuboid is
+            in the form of `(length, width, height)`.
 
         '''
         if 1 == lwh.ndim and (0 == (len_lwh := len(lwh)) or 3 == len_lwh):
@@ -198,11 +198,11 @@ class LWH(Attribute):
     def from_similar(cls, obj):
         r'''New data from the input.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
-        ### Returns:
-            - Data sharing the storage memory with the input.
+        #### Returns:
+        - Data sharing the storage memory with the input.
 
         '''
         return cls(lwh=obj.lwh_)
@@ -212,8 +212,8 @@ class LWH(Attribute):
 
         Warning: This is an inplace method.
 
-        ###Args:
-            - obj
+        #### Args:
+        - obj
 
         '''
         super().merge_(obj)
@@ -224,8 +224,8 @@ class LWH(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - radius: radius to rotate by in radius.
+        #### Args:
+        - radius: radius to rotate by in radius.
 
         '''
         super().rotate_around_z_axis_(radius)
@@ -235,8 +235,8 @@ class LWH(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - scale
+        #### Args:
+        - scale
 
         '''
         self.lwh_ *= scale
@@ -246,10 +246,10 @@ class LWH(Attribute):
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)`
-                or `(0,)`. The size of a cuboid should be in the form of
-                `(length, width, height)`.
+        #### Args:
+        - lwh: sizes of cuboids. Its shape should be `(N >= 0, 3)`, `(3,)` or
+            `(0,)`. The size of a cuboid should be in the form of
+            `(length, width, height)`.
 
         '''
         self.lwh_ = self.format_lwh(lwh)

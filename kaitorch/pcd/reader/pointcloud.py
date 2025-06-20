@@ -39,28 +39,28 @@ def _set_point(
 
 
 class PointCloudReader:
+    r'''Abstract class for a point cloud.
+
+    Read PCD in ASCII and version 0.7 only.
+
+    #### Args:
+    - f: path to a PCD file.
+    - fields: fields to be loaded.
+
+    #### Methods:
+    - __iter__
+    - __getitem__
+    - __len__
+    - __next__
+    - is_empty: Whether the point cloud is empty.
+
+    '''
     def __init__(
         self,
         f: Union[Path, str],
         fields: Optional[Sequence[str]] = None,
         *args, **kwargs
     ) -> None:
-        r'''Abstract class for a point cloud.
-
-        Read PCD in ASCII and version 0.7 only.
-
-        ### Args:
-            - f: path to a PCD file.
-            - fields: fields to be loaded.
-
-        ### Methods:
-            - __iter__
-            - __getitem__
-            - __len__
-            - __next__
-            - is_empty: Whether the point cloud is empty.
-
-        '''
         if isinstance(f, str):
             f = Path(f)
         elif not isinstance(f, Path):
@@ -146,8 +146,8 @@ class PointCloudReader:
     def is_empty(self) -> bool:
         r'''Whether the point cloud is empty.
 
-        ### Return:
-            - Empty or not.
+        #### Return:
+        - Empty or not.
 
         '''
         return 0 == self._num_point

@@ -15,11 +15,11 @@ def correct_radii_(radii: TorchTensor[TorchFloat]) -> TorchTensor[TorchFloat]:
 
     Warning: This is an inplace method.
 
-    ### Args:
-        - radii
+    #### Args:
+    - radii
 
-    ### Returns:
-        - Corrected radii.
+    #### Returns:
+    - Corrected radii.
 
     '''
     radii[radii >= PI] -= CI
@@ -32,11 +32,11 @@ def degree_to_radius(
 ) -> TorchTensor[TorchFloat]:
     r'''Convert angle(s) from degree to radius.
 
-    ### Args:
-        - degree: angle(s) in degree.
+    #### Args:
+    - degree: angle(s) in degree.
 
-    ### Returns:
-        - Angle(s) in radius.
+    #### Returns:
+    - Angle(s) in radius.
 
     '''
     return degree * (PI / 180)
@@ -51,12 +51,12 @@ def add_radius(a: Real, b: Real) -> Float:
     a + b
     ```
 
-    ### Args:
-        - a: radii.
-        - b: radii.
+    #### Args:
+    - a: radii.
+    - b: radii.
 
-    ### Returns:
-        - Result radii.
+    #### Returns:
+    - Result radii.
 
     '''
     r = a + b
@@ -76,12 +76,12 @@ def minus_radius(a: Real, b: Real) -> Float:
     a - b
     ```
 
-    ### Args:
-        - a: radii.
-        - b: radii.
+    #### Args:
+    - a: radii.
+    - b: radii.
 
-    ### Returns:
-        - Result radii.
+    #### Returns:
+    - Result radii.
 
     '''
     d = a - b
@@ -103,12 +103,12 @@ def add_radii(
     a + b
     ```
 
-    ### Args:
-        - a: radii.
-        - b: radii.
+    #### Args:
+    - a: radii.
+    - b: radii.
 
-    ### Returns:
-        - Result radii.
+    #### Returns:
+    - Result radii.
 
     '''
     return correct_radii_(a + b)
@@ -125,12 +125,12 @@ def minus_radii(
     a - b
     ```
 
-    ### Args:
-        - a: radii.
-        - b: radii.
+    #### Args:
+    - a: radii.
+    - b: radii.
 
-    ### Returns:
-        - Result radii.
+    #### Returns:
+    - Result radii.
 
     '''
     return correct_radii_(a - b)
@@ -141,18 +141,18 @@ def leftmost_and_rightmost(
     radii: TorchTensor[TorchReal]
 ) -> Tuple[TorchReal, TorchReal]:
     r'''
-    Rightmost radius and leftmost radius of objects in polar-like coordinate
+    Rightmost radius and leftmost radius of objects in a polar-like coordinate
     system.
 
     The range of `radii` should be less than PI. In another word, the
     difference between the rightmost and the leftmost should be less than PI.
 
-    ### Args:
-        - radii: radii of points in radius. Its shape should be `(N,)`.
+    #### Args:
+    - radii: radii of points in radius. Its shape should be `(N,)`.
 
-    ### Returns:
-        - Leftmost radius.
-        - Rightmost radius.
+    #### Returns:
+    - Leftmost radius.
+    - Rightmost radius.
 
     '''
     d = minus_radii(
@@ -167,18 +167,18 @@ def leftmosts_and_rightmosts(
     radii: TorchTensor[TorchReal]
 ) -> Tuple[TorchTensor[TorchReal], TorchTensor[TorchReal]]:
     r'''
-    Rightmost radii and leftmost radii of objects in polar-like coordinate
+    Rightmost radii and leftmost radii of objects in a polar-like coordinate
     system.
 
     The range of `radii` should be less than PI. In another word, the
     difference between the rightmost and the leftmost should be less than PI.
 
-    ### Args:
-        - radii: radii of points in radius. Its shape should be `(B, N)`.
+    #### Args:
+    - radii: radii of points in radius. Its shape should be `(B, N)`.
 
-    ### Returns:
-        - Leftmost radii. Its shape is `(B,)`.
-        - Rightmost radii. Its shape is `(B,)`.
+    #### Returns:
+    - Leftmost radii. Its shape is `(B,)`.
+    - Rightmost radii. Its shape is `(B,)`.
 
     '''
     d = minus_radii(
@@ -196,11 +196,11 @@ def rotation_matrix_2d(radius: TorchReal) -> TorchTensor[TorchFloat]:
 
     (2, N) = (2, 2) * (2, N)
 
-    ### Args;
-        - radius: radius to rotate by.
+    #### Args;
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotation matrix. Its shape is `(2, 2)`.
+    #### Returns:
+    - Rotation matrix. Its shape is `(2, 2)`.
 
     '''
     sin = torch.sin(radius)
@@ -219,11 +219,11 @@ def rotation_matrix_2d_t(radius: TorchReal) -> TorchTensor[TorchFloat]:
 
     (N, 2) = (N, 2) * (2, 2)
 
-    ### Args;
-        - radius: radius to rotate by.
+    #### Args;
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotation matrix. Its shape is `(2, 2)`.
+    #### Returns:
+    - Rotation matrix. Its shape is `(2, 2)`.
 
     '''
     sin = torch.sin(radius)
@@ -243,11 +243,11 @@ def rotation_matrix_3d_x(radius: Real) -> TorchTensor[TorchFloat]:
 
     (3, N) = (3, 3) * (3, N)
 
-    ### Args:
-        - radius: radius to rotate by.
+    #### Args:
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotation matrix. Its shape is `(3, 3)`.
+    #### Returns:
+    - Rotation matrix. Its shape is `(3, 3)`.
 
     '''
     sin = torch.sin(radius)
@@ -267,11 +267,11 @@ def rotation_matrix_3d_y(radius: Real) -> TorchTensor[TorchFloat]:
 
     (3, N) = (3, 3) * (3, N)
 
-    ### Args:
-        - radius: radius to rotate by.
+    #### Args:
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotation matrix. Its shape is `(3, 3)`.
+    #### Returns:
+    - Rotation matrix. Its shape is `(3, 3)`.
 
     '''
     sin = torch.sin(radius)
@@ -291,11 +291,11 @@ def rotation_matrix_3d_z(radius: Real) -> TorchTensor[TorchFloat]:
 
     (3, N) = (3, 3) * (3, N)
 
-    ### Args:
-        - radius: radius to rotate by.
+    #### Args:
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotation matrix. Its shape is `(3, 3)`.
+    #### Returns:
+    - Rotation matrix. Its shape is `(3, 3)`.
 
     '''
     sin = torch.sin(radius)
@@ -314,13 +314,13 @@ def rotate_point_2d(
 ) -> TorchTensor[TorchFloat]:
     r'''Rotate coordinates in the rectangular coordiante system.
 
-    ### Args:
-        - xyf: Coordinates in the rectangular coordinate system. Its shape
-            should be `(N, 2 [+ C])`.
-        - radius: radius to rotate by.
+    #### Args:
+    - xyf: Coordinates in the rectangular coordinate system. Its shape should
+        be `(N, 2 [+ C])`.
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotated coordinates. Its shape is `(N, 2)`.
+    #### Returns:
+    - Rotated coordinates. Its shape is `(N, 2)`.
 
     '''
     return torch.matmul(xyf[..., :2], rotation_matrix_2d_t(radius))
@@ -332,13 +332,13 @@ def rotate_point_3d_z(
     r'''
     Rotate coordinates around Z axis in the 3D rectangular coordiante system.
 
-    ### Args:
-        - xyzf: Coordinates in the 3D rectangular coordinate system. Its shape
-            should be `(N, 3 [+ C])`.
-        - radius: radius to rotate by.
+    #### Args:
+    - xyzf: Coordinates in the 3D rectangular coordinate system. Its shape
+        should be `(N, 3 [+ C])`.
+    - radius: radius to rotate by.
 
-    ### Returns:
-        - Rotated coordinates. Its shape is `(N, 3)`.
+    #### Returns:
+    - Rotated coordinates. Its shape is `(N, 3)`.
 
     '''
     return torch.cat((rotate_point_2d(xyzf, radius), xyzf[..., 2: 3]), -1)
@@ -351,11 +351,11 @@ def rotation_matrices_2d(
 
     (R, 2, N) = (R, 2, 2) * (R, 2, N)
 
-    ### Args;
-        - radii: radii to rotate by. Its shape should be `(R,)`.
+    #### Args;
+    - radii: radii to rotate by. Its shape should be `(R,)`.
 
-    ### Returns:
-        - Rotation matrices. Its shape is `(R, 2, 2)`.
+    #### Returns:
+    - Rotation matrices. Its shape is `(R, 2, 2)`.
 
     '''
     m = torch.zeros((len(radii), 2, 2), device=radii.device)
@@ -373,11 +373,11 @@ def rotation_matrices_2d_t(
 
     (R, N, 2) = (R, N, 2) * (R, 2, 2)
 
-    ### Args;
-        - radii: radii to rotate by. Its shape should be `(R,)`.
+    #### Args;
+    - radii: radii to rotate by. Its shape should be `(R,)`.
 
-    ### Returns:
-        - Rotation matrices. Its shape is `(R, 2, 2)`.
+    #### Returns:
+    - Rotation matrices. Its shape is `(R, 2, 2)`.
 
     '''
     m = torch.zeros((len(radii), 2, 2), device=radii.device)
@@ -393,13 +393,13 @@ def rotate_points_2d(
 ) -> TorchTensor[TorchFloat]:
     r'''Rotate coordinates in the rectangular coordiante system.
 
-    ### Args:
-        - xyf: Coordinates in the rectangular coordinate system. Its shape
-            should be `(R, N, 2 [+ C])`.
-        - radii: radii to rotate by. Its shape should be `(R,)`.
+    #### Args:
+    - xyf: Coordinates in the rectangular coordinate system. Its shape should
+        be `(R, N, 2 [+ C])`.
+    - radii: radii to rotate by. Its shape should be `(R,)`.
 
-    ### Returns:
-        - Rotated coordinates. Its shape is `(R, N, 2)`.
+    #### Returns:
+    - Rotated coordinates. Its shape is `(R, N, 2)`.
 
     '''
     return torch.matmul(xyf[..., :2], rotation_matrices_2d_t(radii))
@@ -411,13 +411,13 @@ def rotate_points_3d_z(
     r'''
     Rotate coordinates around Z axis in the 3D rectangular coordiante system.
 
-    ### Args:
-        - xyzf: Coordinates in the 3D rectangular coordinate system. Its shape
-            should be `(R, N, 3 [+ C])`.
-        - radii: radii to rotate by. Its length should be `R`.
+    #### Args:
+    - xyzf: Coordinates in the 3D rectangular coordinate system. Its shape
+        should be `(R, N, 3 [+ C])`.
+    - radii: radii to rotate by. Its length should be `R`.
 
-    ### Returns:
-        - Rotated coordinates. Its shape is `(R, N, 3)`.
+    #### Returns:
+    - Rotated coordinates. Its shape is `(R, N, 3)`.
 
     '''
     return torch.cat((rotate_points_2d(xyzf, radii), xyzf[..., 2: 3]), -1)

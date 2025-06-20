@@ -4,7 +4,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-from .utils import _ntuple
+from ..data.utils import ntuple
 
 
 class _CircularPadNd(nn.Module):
@@ -23,7 +23,7 @@ class CircularPad2d(_CircularPadNd):
 
     def __init__(self, padding: Union[int, Tuple[int]]) -> None:
         super(CircularPad2d, self).__init__()
-        self.padding = _ntuple(4)(padding)
+        self.padding = ntuple(4)(padding)
 
 
 PAD2D = {

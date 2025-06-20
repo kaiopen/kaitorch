@@ -2,8 +2,8 @@ from typing import Optional, Sequence, Union
 
 from torch import nn
 
+from ..data.utils import tuple_2
 from .padding import PAD2D
-from .utils import _ntuple
 
 
 def avg_pool2d(
@@ -17,34 +17,35 @@ def avg_pool2d(
 ):
     r'''
 
-    ### Args:
-        - kernel_size: size of the window. Its length should be 2 if it is a
-            sequence.
-        - stride: stride of the window. Its length should be 2 if it is a
-            sequence.
-        - padding: padding added to dimension of `H` and `W` of the input.
-            Its length should be 2 if it is a sequence.
-        - ceil_mode: Whether to use ceilling instead of flooring to
-            compute the output shape.
-        - count_include_pad: Whether to include the zero-padding in the
-            averaging calculation.
-        - divisor_override: If specified, it will be used as divisor, otherwise
-            size of the pooling region will be used.
-        - padding_mode: `zeros`, `reflect`, `replicate`, `circular` or their
-            combination working on dimension `H` and `W` of the input. Its
-            length should be less than or equal to 2 if it is a sequence.
+    #### Args:
+    - kernel_size: the size of the window. Its length should be 2 if it is a
+        sequence.
+    - stride: the stride of the window. Its length should be 2 if it is a
+        sequence.
+    - padding: the padding added to dimensions `H` and `W` of the input. Its
+        length should be less than or equal to 2 if it is a sequence.
+    - ceil_mode: Whether to use ceiling instead of flooring to compute the
+        output shape.
+    - count_include_pad: Whether to include the zero-padding in the averaging
+        calculation.
+    - divisor_override: If specified, it will be used as divisor, otherwise
+        size of the pooling region will be used.
+    - padding_mode: `zeros`, `reflect`, `replicate`, `circular` or their
+        combination working on dimension `H` and `W` of the input. Its length
+        should be less than or equal to 2 if it is a sequence.
 
-    ### Returns:
-        - 2D avgerage pooling.
+    #### Returns:
+    - 2D average pooling.
 
     '''
     if isinstance(padding_mode, (tuple, list)):
         len_m = len(padding_mode)
         if 2 == len_m:
-            padding = _ntuple(2)(padding)
+            padding = tuple_2(padding)
             if len(padding) > 2:
                 raise ValueError(
-                    'padding in sequence with length <= 2 or a number wanted.'
+                    'The length of the sequence `padding` should be less than'
+                    ' or equal to 2.'
                 )
             m_0 = padding_mode[0]
             m_1 = padding_mode[1]
@@ -95,7 +96,8 @@ def avg_pool2d(
             padding_mode = padding_mode[0]
         else:
             raise ValueError(
-                'padding_mode in sequence with length <= 2 or a string wanted.'
+                'The length of the sequence `padding_mode` should be less than'
+                ' or equal to 2.'
             )
     if 'zeros' != padding_mode:
         return nn.Sequential(
@@ -126,32 +128,32 @@ def max_pool2d(
 ):
     r'''
 
-    ### Args:
-        - kernel_size: size of the window. Its length should be 2 if it is a
-            sequence.
-        - stride: stride of the window. Its length should be 2 if it is a
-            sequence.
-        - padding: padding added to dimension of `H` and `W` of the input.
-            Its length should be 2 if it is a sequence.
-        - return_indices: Whether to return the max indices along with the
-            outputs.
-        - ceil_mode: Whether to use ceilling instead of flooring to
-            compute the output shape.
-        - padding_mode: `zeros`, `reflect`, `replicate`, `circular` or their
-            combination working on dimension `H` and `W` of the input. Its
-            length should be less than or equal to 2 if it is a sequence.
+    #### Args:
+    - kernel_size: the size of the window. Its length should be 2 if it is a
+        sequence.
+    - stride: the stride of the window. Its length should be 2 if it is a
+        sequence.
+    - padding: the padding added to dimensions `H` and `W` of the input. Its
+        length should be less than or equal to 2 if it is a sequence.
+    - return_indices: Whether to return the max indices along with the outputs.
+    - ceil_mode: Whether to use ceiling instead of flooring to compute the
+        output shape.
+    - padding_mode: `zeros`, `reflect`, `replicate`, `circular` or their
+        combination working on dimension `H` and `W` of the input. Its length
+        should be less than or equal to 2 if it is a sequence.
 
-    ### Returns:
-        - 2D max pooling.
+    #### Returns:
+    - 2D max pooling.
 
     '''
     if isinstance(padding_mode, (tuple, list)):
         len_m = len(padding_mode)
         if 2 == len_m:
-            padding = _ntuple(2)(padding)
+            padding = tuple_2(padding)
             if len(padding) > 2:
                 raise ValueError(
-                    'padding in sequence with length <= 2 or a number wanted.'
+                    'The length of the sequence `padding` should be less than'
+                    ' or equal to 2.'
                 )
             m_0 = padding_mode[0]
             m_1 = padding_mode[1]
@@ -203,7 +205,8 @@ def max_pool2d(
             padding_mode = padding_mode[0]
         else:
             raise ValueError(
-                'padding_mode in sequence with length <= 2 or a string wanted.'
+                'The length of the sequence `padding_mode` should be less than'
+                ' or equal to 2.'
             )
     if 'zeros' != padding_mode:
         return nn.Sequential(

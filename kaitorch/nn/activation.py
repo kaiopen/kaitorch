@@ -16,4 +16,14 @@ ACTIVATIONS = {
 
 
 def activation(name: str, kw: Dict[str, Any] = {}) -> nn.Module:
+    r'''
+
+    #### Args:
+    - name: the name of a activation function.
+    - kw: the arguments to the activation function.
+
+    #### Returns:
+    - An activation function.
+
+    '''
     return ACTIVATIONS[name](**kw)

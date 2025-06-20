@@ -8,12 +8,12 @@ def euclidean_distance(
 ) -> TorchTensor[TorchFloat]:
     r'''Euclidean distances between a and b.
 
-    ### Args:
-        - a: coordinates. Its shape should be `([*,] C)`.
-        - b: coordinates. Its shape should be `([*,] C)`.
+    #### Args:
+    - a: coordinates. Its shape should be `([*,] C)`.
+    - b: coordinates. Its shape should be `([*,] C)`.
 
-    ### Returns:
-        - Distances between a and b. Its shape is `([*,])`.
+    #### Returns:
+    - Distances between a and b. Its shape is `([*,])`.
 
     '''
     return torch.linalg.norm(a - b, dim=-1)
@@ -24,14 +24,14 @@ def euclidean_distance_polar(
 ) -> TorchTensor[TorchFloat]:
     r'''Euclidean distances between polar coordinates a and b.
 
-    ### Args:
-        - a: coordinates in a polar coordiante system. Its shape should be
-            `([*,] 2 [+ C])`.
-        - b: coordinates in a polar coordinate system. Its shape should be
-            `([*,] 2 [+ C])`.
+    #### Args:
+    - a: coordinates in a polar coordinate system. Its shape should be
+        `([*,] 2 [+ C])`.
+    - b: coordinates in a polar coordinate system. Its shape should be
+        `([*,] 2 [+ C])`.
 
-    ### Returns:
-        - Distances between a and b. Its shape is `([*,])`.
+    #### Returns:
+    - Distances between a and b. Its shape is `([*,])`.
 
     '''
     return torch.sqrt(squared_euclidean_distance_polar(a, b))
@@ -42,12 +42,12 @@ def squared_euclidean_distance(
 ) -> TorchTensor[TorchFloat]:
     r''''Squared Euclidean distances between a and b.
 
-    ### Args:
-        - a: coordinates. Its shape should be `([*,] C)`.
-        - b: coordinates. Its shape should be `([*,] C)`.
+    #### Args:
+    - a: coordinates. Its shape should be `([*,] C)`.
+    - b: coordinates. Its shape should be `([*,] C)`.
 
-    ### Returns:
-        - Squared distances between a and b. Its shape is `([*,])`.
+    #### Returns:
+    - Squared distances between a and b. Its shape is `([*,])`.
 
     '''
     return torch.sum(torch.pow(a - b, 2), dim=-1)
@@ -58,14 +58,14 @@ def squared_euclidean_distance_polar(
 ) -> TorchTensor[TorchFloat]:
     r'''Euclidean distances between polar coordinates a and b.
 
-    ### Args:
-        - a: coordinates in a polar coordiante system. Its shape should be
-            `([*,] 2 [+ C])`.
-        - b: coordinates in a polar coordinate system. Its shape should be
-            `([*,] 2 [+ C])`.
+    #### Args:
+    - a: coordinates in a polar coordiante system. Its shape should be
+        `([*,] 2 [+ C])`.
+    - b: coordinates in a polar coordinate system. Its shape should be
+        `([*,] 2 [+ C])`.
 
-    ### Returns:
-        - Squared distances between a and b. Its shape is `([*,])`.
+    #### Returns:
+    - Squared distances between a and b. Its shape is `([*,])`.
 
     '''
     r_1 = a[..., 0]

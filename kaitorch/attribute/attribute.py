@@ -4,34 +4,34 @@ from ..typing import TorchDevice, TorchReal
 
 
 class Attribute:
+    r'''Abstract class for box.
+
+    #### Properties:
+    - device
+
+    #### Methods:
+    - __iter__
+    - __getitem__: Slice the necessary data.
+    - __len__
+    - __next__
+    - append_: Append new data to the existed data.
+    - copy: Copy the necessary data.
+    - copy_all: Copy all of the data.
+    - cpu_
+    - cuda_
+    - filter_: Filter the necessary data.
+    - flip_around_x_axis_: Flip the data around the X axis.
+    - flip_around_y_axis_: Flip the data around the Y axis.
+    - is_empty: Whether there is no data.
+    - merge_: Merge the two.
+    - rotate_around_z_axis_: Rotate the data around the Z axis.
+    - slice_all: Slice all of the data.
+
+    #### Class Methods:
+    - from_similar: New data from the input.
+
+    '''
     def __init__(self, *args, **kwargs) -> None:
-        r'''Abstract class for box.
-
-        ### Properties:
-            - device
-
-        ### Methods:
-            - __iter__
-            - __getitem__: Slice the necessary data.
-            - __len__
-            - __next__
-            - append_: Append new data to the existed data.
-            - copy: Copy the necessary data.
-            - copy_all: Copy all of the data.
-            - cpu_
-            - cuda_
-            - filter_: Filter the necessary data.
-            - flip_around_x_axis_: Flip the data around the X axis.
-            - flip_around_y_axis_: Flip the data around the Y axis.
-            - is_empty: Whether there is no data.
-            - merge_: Merge the two.
-            - rotate_around_z_axis_: Rotate the data around the Z axis.
-            - slice_all: Slice all of the data.
-
-        ### Class Methods:
-            - from_similar: New data from the input.
-
-        '''
         self._len = -1
         self._device: Optional[TorchDevice] = None
         self.__i: int = 0
@@ -49,11 +49,11 @@ class Attribute:
     def __getitem__(self, i: Union[int, slice, Sequence[Union[int, bool]]]):
         r'''Slice the necessary data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         raise NotImplementedError
@@ -74,8 +74,8 @@ class Attribute:
 
         Warning: This is an inplace methods.
 
-        ### Returns:
-            - Number of the appended data.
+        #### Returns:
+        - Number of the appended data.
 
         '''
         return -1
@@ -92,8 +92,8 @@ class Attribute:
     def copy_all(self):
         r'''Copy all of the data.
 
-        ### Returns:
-            - A copy of self.
+        #### Returns:
+        - A copy of self.
 
         '''
         return self.copy()
@@ -109,8 +109,8 @@ class Attribute:
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
         '''
         return
@@ -135,11 +135,11 @@ class Attribute:
     def from_similar(cls, obj):
         r'''New data from the input.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
-        ### Returns:
-            - Data sharing the storage memory with the input.
+        #### Returns:
+        - Data sharing the storage memory with the input.
 
         '''
         return NotImplementedError
@@ -147,8 +147,8 @@ class Attribute:
     def is_empty(self) -> bool:
         r'''Whether there is no data.
 
-        ### Return:
-            - Empty or not.
+        #### Return:
+        - Empty or not.
 
         '''
         return 0 == self._len
@@ -158,8 +158,8 @@ class Attribute:
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - obj
+        #### Args:
+        - obj
 
         '''
         if obj.device != self._device:
@@ -175,8 +175,8 @@ class Attribute:
 
         Warning: This is an inplace method.
 
-        ### Args:
-            - radius: radius to rotate by in radius.
+        #### Args:
+        - radius: radius to rotate by in radius.
 
         '''
         return
@@ -184,11 +184,11 @@ class Attribute:
     def slice_all(self, i):
         r'''Slice all of the data.
 
-        ### Args:
-            - i: index, slice, mask or indices.
+        #### Args:
+        - i: index, slice, mask or indices.
 
-        ### Returns:
-            - A view of self.
+        #### Returns:
+        - A view of self.
 
         '''
         return self[i]

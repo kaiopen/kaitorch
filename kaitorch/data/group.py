@@ -8,6 +8,41 @@ from ..typing import TorchDevice, TorchTensor, TorchTensorLike, \
 
 
 class Group:
+    r'''Group data.
+
+    A group is calculated as follows.
+            group = int((a - lower_bound) / cell + error)
+
+    #### Args:
+    - lower_bound: lower bound of the data. Its length should be `C`.
+    - cell: size of a cell for grouping. Its length should be `C`.
+    - error: tolerant error. Its shape should be `(C,)` or its length
+        should be larger than 1. An error should be within [0, 1).
+    - closed: Whether do loop closing. Its shape should be `(C,)` or
+        its length should be larger than 1. If `True`, the last group
+        will be merged into the first group.
+    - upper_bound: upper bound of the data. Its length should be `C`.
+        Used for calculating the maximal group ID if do loop closing.
+        If not provided, the maximal group ID will be calculated
+        according to the input data.
+    - return_offset: Whether to return offsets. An offset is calculated
+        as follows.
+            offset = (a - lower_bound) / cell + error - group
+    - device
+
+    #### Methods:
+    - __call__
+
+    ## __call__
+    #### Args:
+    - x: data to be grouped. Its shape should be `([*,] C)`.
+
+    #### Returns:
+    - Groups. Its shape is `([*,] C)`.
+    - (optional) Offsets. Its shape is `([*,] C)`. Returned if `return_offset`
+        is `True`.
+
+        '''
     def __init__(
         self,
         lower_bound: TorchTensorLike[Real],
@@ -18,45 +53,6 @@ class Group:
         return_offset: bool = False,
         device: TorchDevice = torch.device('cpu')
     ) -> None:
-        r'''Group data.
-
-        A group is calculated as follows.
-                group = int(
-                    (
-                        a - lower_bound
-                    ) / cell + error
-                )
-
-        ### Args:
-            - lower_bound: lower bound of the data. Its length should be `C`.
-            - cell: size of a cell for grouping. Its length should be `C`.
-            - error: tolerant error. Its shape should be `(C,)` or its length
-                should be larger than 1. An error should be within [0, 1).
-            - closed: Whether do loop closing. Its shape should be `(C,)` or
-                its length should be larger than 1. If `True`, the last group
-                will be merged into the first group.
-            - upper_bound: upper bound of the data. Its length should be `C`.
-                Used for calculating the maximal group ID if do loop closing.
-                If not provided, the maximal group ID will be calculated
-                according to the input data.
-            - return_offset: Whether to return offsets. An offset is calculated
-                as follows.
-                    offset = (a - lower_bound) / cell + error - group
-            - device
-
-        ### Methods:
-            - __call__
-
-        __call__
-        ### Args:
-            - x: data to be grouped. Its shape should be `([*,] C)`.
-
-        ### Returns:
-            - Groups. Its shape is `([*,] C)`.
-            - (optional) Offsets. Its shape is `([*,] C)`. Returned if
-                `return_offset` is `True`.
-
-        '''
         super().__init__()
         self._lower_bound = torch.as_tensor(lower_bound, device=device)
         self._cell = torch.as_tensor(cell, device=device)
@@ -136,22 +132,22 @@ class ReverseGroup:
     ) -> None:
         r'''Reverse operation of grouping.
 
-        ### Args:
-            - lower_bound: lower bound of the data. Its length should be `C`.
-            - cell: size of a cell for grouping. Its length should be `C`.
-            - error: tolerant error. Its shape should be `(C,)` or its length
-                should be larger than 1. An error should be within [0, 1).
-            - device
+        #### Args:
+        - lower_bound: lower bound of the data. Its length should be `C`.
+        - cell: size of a cell for grouping. Its length should be `C`.
+        - error: tolerant error. Its shape should be `(C,)` or its length
+            should be larger than 1. An error should be within [0, 1).
+        - device
 
-        ### Methods:
-            - forward
+        #### Methods:
+        - forward
 
-        forward
-        ### Args:
-            - x: groups. Its shape should be `([*,] C)`.
+        ## forward
+        #### Args:
+        - x: groups. Its shape should be `([*,] C)`.
 
-        ### Returns:
-            - Coordinates. Its shape is `([*,] C)`.
+        #### Returns:
+        - Coordinates. Its shape is `([*,] C)`.
 
         '''
         super().__init__()
@@ -178,33 +174,28 @@ def group(
     r'''Group data.
 
     A group is calculated as follows.
-            group = int(
-                (
-                    a - lower_bound
-                ) / cell + error
-            )
+            group = int((a - lower_bound) / cell + error)
 
-    ### Args:
-        - a: data to be grouped. Its shape should be `([*,] C)`.
-        - lower_bound: lower bound of the data. Its shape should be `(C,)`.
-        - cell: size of a cell for grouping. Its shape should be `(C,)`.
-        - error: tolerant error. Its shape should be `(C,)` or its length
-            should be larger than 1. An error should be within [0, 1).
-        - closed: Whether do loop closing. Its shape should be `(C,)` or its
-            length should be larger than 1. If `True`, the last group will be
-            merged into the first group.
-        - upper_bound: upper bound of the data. Its length should be `C`. Used
-            for calculating the maximal group ID if do loop closing. If not
-            provided, the maximal group ID will be calculated according to the
-            input data.
-        - return_offset: Whether return offsets. An offset is calculated as
-            follows.
-                offset = (a - lower_bound) / cell + error - group
+    #### Args:
+    - a: data to be grouped. Its shape should be `([*,] C)`.
+    - lower_bound: lower bound of the data. Its shape should be `(C,)`.
+    - cell: size of a cell for grouping. Its shape should be `(C,)`.
+    - error: tolerant error. Its shape should be `(C,)` or its length should be
+        larger than 1. An error should be within [0, 1).
+    - closed: Whether do loop closing. Its shape should be `(C,)` or its length
+        should be larger than 1. If `True`, the last group will be merged into
+        the first group.
+    - upper_bound: upper bound of the data. Its length should be `C`. Used for
+        calculating the maximal group ID if do loop closing. If not provided,
+        the maximal group ID will be calculated according to the input data.
+    - return_offset: Whether return offsets. An offset is calculated as
+        follows.
+            offset = (a - lower_bound) / cell + error - group
 
-    ### Returns:
-        - Groups. Its shape is `([*,] C)`.
-        - (optional) Offsets. Its shape is `([*,] C)`. Returned if
-            `return_offset` is `True`.
+    #### Returns:
+    - Groups. Its shape is `([*,] C)`.
+    - (optional) Offsets. Its shape is `([*,] C)`. Returned if `return_offset`
+        is `True`.
 
     '''
     error = error.expand_as(cell)
@@ -242,15 +233,15 @@ def reverse_group(
 ) -> TorchTensor[TorchReal]:
     r'''Reverse operation of grouping.
 
-    ### Args:
-        - a: groups. Its shape should be `([*,] C)`.
-        - lower_bound: lower bound of the data. Its length should be `C`.
-        - cell: size of a cell for grouping. Its length should be `C`.
-        - error: tolerant error. Its shape should be `(C,)` or its length
-            should be larger than 1. An error should be within [0, 1).
+    #### Args:
+    - a: groups. Its shape should be `([*,] C)`.
+    - lower_bound: lower bound of the data. Its length should be `C`.
+    - cell: size of a cell for grouping. Its length should be `C`.
+    - error: tolerant error. Its shape should be `(C,)` or its length should be
+        larger than 1. An error should be within [0, 1).
 
-    ### Returns:
-        - Coordinates. Its shape is `([*,] C)`.
+    #### Returns:
+    - Coordinates. Its shape is `([*,] C)`.
 
     '''
     return (a - error) * cell + lower_bound
@@ -265,18 +256,18 @@ def cell_from_size(
 ) -> TorchTensor[TorchFloat]:
     r'''Size of a cell.
 
-    ### Args:
-        - lower_bound: lower bound of data. Its shape should be `(C,)`.
-        - upper_bound: upper bound of data. Its shape should be `(C,)`.
-        - size: size of grouped data. Its shape should be `(C,)`.
-        - error: tolerant error. Its shape should be `(C,)` or its length
-            should be larger than 1. An error should be within [0, 1).
-        - closed: Whether do loop closing. Its shape should be `(C,)` or its
-            length should be larger than 1. If `True`, the last group will be
-            merged into the first group.
+    #### Args:
+    - lower_bound: lower bound of data. Its shape should be `(C,)`.
+    - upper_bound: upper bound of data. Its shape should be `(C,)`.
+    - size: size of grouped data. Its shape should be `(C,)`.
+    - error: tolerant error. Its shape should be `(C,)` or its length should be
+        larger than 1. An error should be within [0, 1).
+    - closed: Whether do loop closing. Its shape should be `(C,)` or its length
+        should be larger than 1. If `True`, the last group will be merged into
+        the first group.
 
-    ### Returns:
-        - Size of a cell. Its shape is `(C,)`.
+    #### Returns:
+    - Size of a cell. Its shape is `(C,)`.
 
     '''
     return (upper_bound - lower_bound) / (
@@ -293,18 +284,18 @@ def size_from_cell(
 ) -> TorchTensor[TorchInt64]:
     r'''Size of grouped data.
 
-    ### Args:
-        - lower_bound: lower bound of data. Its shape should be `(C,)`.
-        - upper_bound: upper bound of data. Its shape should be `(C,)`.
-        - cell: size of a cell. Its shape should be `(C,)`.
-        - error: tolerant error. Its shape should be `(C,)` or its length
-            should be larger than 1. An error should be within [0, 1).
-        - closed: Whether do loop closing. Its shape should be `(C,)` or its
-            length should be larger than 1. If `True`, the last group will be
-            merged into the first group.
+    #### Args:
+    - lower_bound: lower bound of data. Its shape should be `(C,)`.
+    - upper_bound: upper bound of data. Its shape should be `(C,)`.
+    - cell: size of a cell. Its shape should be `(C,)`.
+    - error: tolerant error. Its shape should be `(C,)` or its length should be
+        larger than 1. An error should be within [0, 1).
+    - closed: Whether do loop closing. Its shape should be `(C,)` or its length
+        should be larger than 1. If `True`, the last group will be merged into
+        the first group.
 
-    ### Returns:
-        - Size of grouped data. Its shape is `(C,)`.
+    #### Returns:
+    - Size of grouped data. Its shape is `(C,)`.
 
     '''
     return torch.ceil(

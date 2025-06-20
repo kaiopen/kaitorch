@@ -1,0 +1,36 @@
+---
+configs:
+  - test.yaml
+
+data:
+  a: 123
+  # b: ~task
+  c: ~task.data.c
+d:
+  -
+    p: 234
+    # w: 123
+    # r: 456
+  -
+    - ~task.data.c
+    - ~task.data.a
+s:
+  -
+    - 1
+    - 2
+  -
+    - 3
+    - 4
+  - 5
+f:
+  ~1:
+    ~2:
+      ~3:
+        asd: 1
+        qwe: 2
+        zxc: ~data.a
+        fgh: ~task.data.b
+      rty: 3
+  uu: 9
+  asd: 8  # will be re-wrote
+...
